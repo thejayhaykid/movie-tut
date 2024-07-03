@@ -19,6 +19,7 @@ class SampleData {
     private init() {
         let schema = Schema([
             Movie.self,
+            Friend.self,
         ])
         let modelConfiguration =  ModelConfiguration(schema: schema, isStoredInMemoryOnly: true)
         
@@ -35,6 +36,15 @@ class SampleData {
             context.insert(movie)
         }
         
+        for friend in Friend.sampleData {
+            context.insert(friend)
+        }
+        
+        Friend.sampleData[0].favoriteMovie = Movie.sampleData[1]
+        Friend.sampleData[2].favoriteMovie = Movie.sampleData[0]
+        Friend.sampleData[3].favoriteMovie = Movie.sampleData[4]
+        Friend.sampleData[4].favoriteMovie = Movie.sampleData[0]
+        
         do {
             try context.save()
         } catch {
@@ -44,5 +54,9 @@ class SampleData {
     
     var movie: Movie {
         Movie.sampleData[0]
+    }
+    
+    var friend: Friend {
+        Friend.sampleData[0]
     }
 }
